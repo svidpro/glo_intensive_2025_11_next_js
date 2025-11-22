@@ -1,7 +1,11 @@
-import Link from "next/link";
-import './scss/style.scss'
+import { getData } from "./actions";
+import { Product } from "./models/product.model";
+import { Query } from "./models/query.model";
 
-export default function Home() {
+export default async function Home({searchParams} : {searchParams: Query}) {
+  const query = await searchParams
+  const products = await getData(query)
+
   return (
     <>
       <div className="container">
@@ -48,7 +52,25 @@ export default function Home() {
             <div className="container">
               <div className="row no-gutters goods">
                 {/* <!-- КАРТОЧКИ ТОВАРОВ --> */}
-
+                {products.map((product: Product) => {
+                  return (
+                    <div className="col-12 col-md-6 col-lg-4 col-xl-3" key="{product.title}">
+                      <div className="card" data-id="${product.id}">
+                        {product.sale ? <div className="card-sale">🔥Hot Sale🔥</div> : null}
+                        <div className="card-img-wrapper">
+                          <span className="card-img-top"
+                          style={{backgroundImage: `url(${product.img})`}}
+                          ></span>
+                        </div>
+                        <div className="card-body justify-content-between">
+                          <div className="card-price">{product.price} ₽</div>
+                          <h5 className="card-title">{product.title}</h5>
+                          <button className="btn btn-primary">В корзину</button>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
                 {/* <!-- END КАРТОЧКИ ТОВАРОВ --> */}
               </div>
             </div>

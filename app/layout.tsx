@@ -1,6 +1,7 @@
 import localFont from 'next/font/local'
 import Header from './ui/header';
 import Cart from './ui/cart';
+import './scss/style.scss'
 
 const GTEestiProText = localFont({
   src: [
